@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Envs & notebooks
+.venv/
+.ipynb_checkpoints/
+
+# MLflow logs
+mlruns/
+
+# DVC
+data/processed/
+*.lock
