@@ -1,4 +1,4 @@
-import os, json
+import os, json, pickle
 import pandas as pd
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
@@ -25,13 +25,14 @@ def load_data():
 def main(use_mlflow=True):
     X_train, X_test, y_train, y_test = load_data()
 
-    # أربع تجارب مختلفة
     experiments = [
         {"name": "default", "n_estimators": 100, "max_depth": 5},
         {"name": "weak", "n_estimators": 50, "max_depth": 3},
         {"name": "medium", "n_estimators": 150, "max_depth": 10},
         {"name": "strong", "n_estimators": 200, "max_depth": 20},
     ]
+
+    last_model = None  # نخزن آخر موديل
 
     for exp in experiments:
         model = RandomForestClassifier(
@@ -68,6 +69,14 @@ def main(use_mlflow=True):
         os.makedirs("artifacts", exist_ok=True)
         with open(f"artifacts/metrics_{exp['name']}.json", "w") as f:
             json.dump(metrics, f)
+
+        last_model = model  # نخزن آخر موديل
+
+    # ✅ حفظ آخر موديل كـ model.pkl
+    if last_model is not None:
+        with open("artifacts/model.pkl", "wb") as f:
+            pickle.dump(last_model, f)
+        print("Model saved to artifacts/model.pkl ✅")
 
 
 if __name__ == "__main__":

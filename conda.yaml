@@ -1,0 +1,12 @@
+name: mlops-week3
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scikit-learn
+  - pip
+  - pip:
+      - mlflow
+      - dvc
